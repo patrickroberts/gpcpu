@@ -1,7 +1,7 @@
 'use strict';
 
 import { MessageRequest, MessageResponse } from './message';
-import Task, { TaskOptions } from './task';
+import { Task, TaskOptions } from './task';
 import Worker from './worker';
 
 interface Completions {
@@ -47,4 +47,4 @@ class Thread {
   }
 }
 
-export = Thread;
+export default Thread;

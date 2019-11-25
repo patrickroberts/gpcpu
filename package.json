@@ -2,21 +2,45 @@
   "name": "gpcpu",
   "version": "0.0.0",
   "description": "Asynchronous Parallel Programming for TypedArray",
-  "main": "src/manager.js",
-  "dependencies": {},
+  "main": "dst/gpcpu.js",
+  "module": "dst/gpcpu.mjs",
+  "browser": "dst/gpcpu.min.js",
+  "types": "dst/gpcpu.d.ts",
+  "repository": "github:patrickroberts/gpcpu",
+  "homepage": "https://patrickroberts.github.io/gpcpu/",
+  "bugs": "https://github.com/patrickroberts/gpcpu/issues",
+  "author": "Patrick Roberts",
+  "license": "MIT",
+  "keywords": [
+    "async",
+    "parallel",
+    "concurrency",
+    "cpu",
+    "task",
+    "thread",
+    "typedarray",
+    "typescript",
+    "worker"
+  ],
+  "scripts": {
+    "make": "rimraf dst && rollup -c",
+    "docs": "rimraf docs && typedoc src/manager.ts",
+    "build": "npm run make && npm run docs",
+    "prepublishOnly": "npm run build"
+  },
   "devDependencies": {
     "@types/node": "^12.12.12",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.27.5",
+    "rollup-plugin-dts": "^1.1.12",
+    "rollup-plugin-terser": "^5.1.2",
+    "rollup-plugin-ts": "^0.2.0",
+    "typedoc": "^0.15.3",
+    "typedoc-plugin-sourcefile-url": "^1.0.4",
     "typescript": "^3.7.2"
   },
-  "scripts": {},
-  "keywords": [
-    "asynchronous",
-    "parallel",
-    "cpu",
-    "thread",
-    "worker",
-    "TypedArray"
-  ],
-  "author": "Patrick Roberts",
-  "license": "MIT"
+  "engines": {
+    "node": ">=10.5.0",
+    "npm": ">=4.0.0"
+  }
 }

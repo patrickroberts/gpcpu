@@ -54,4 +54,4 @@ class Manager {
   };
 }
 
-export = Manager;
+export { Manager };

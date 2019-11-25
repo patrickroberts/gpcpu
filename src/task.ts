@@ -39,4 +39,4 @@ const Task: TaskConstructor = typeof Worker === 'function'
 ? Worker
 : getWorker();
 
-export default Task;
+export { Task };

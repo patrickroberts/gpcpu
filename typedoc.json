@@ -1,0 +1,6 @@
+{
+  "out": "docs",
+  "theme": "minimal",
+  "mode": "file",
+  "sourcefile-url-prefix": "https://github.com/patrickroberts/gpcpu/blob/master/src/"
+}
