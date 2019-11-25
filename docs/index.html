@@ -2454,6 +2454,65 @@ img {
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
+		<div class="tsd-panel tsd-typography">
+			<a href="#gpcpu" id="gpcpu" style="color: inherit; text-decoration: none;">
+				<h1>gpcpu</h1>
+			</a>
+			<p>Asynchronous Parallel Programming for TypedArray</p>
+			<a href="#about" id="about" style="color: inherit; text-decoration: none;">
+				<h2>About</h2>
+			</a>
+			<p><code>gpcpu</code> enables user-friendly parallel programming in JavaScript by defining a <code>forEach()</code> function which executes a user-defined callback on multiple concurrent threads and returns a <code>Promise</code> that resolves when all the results have been copied to the TypedArray provided as input.</p>
+			<p>This significantly speeds up execution of sequential <code>for</code> loops over large typed arrays by delegating each block of execution to a concurrently running thread.</p>
+			<a href="#support" id="support" style="color: inherit; text-decoration: none;">
+				<h2>Support</h2>
+			</a>
+			<p><code>gpcpu</code> provides out-of-the-box support for both browsers and <a href="https://nodejs.org">Node.js</a> by selectively using <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API">Web Workers</a> or <a href="https://nodejs.org/api/worker_threads.html#worker_threads_worker_threads">Worker Threads</a> depending on the runtime environment. It also ships with typings for use in TypeScript projects.</p>
+			<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+				<h2>Install</h2>
+			</a>
+			<a href="#a-hrefhttpswwwnpmjscompackagegpcpunpma-recommended" id="a-hrefhttpswwwnpmjscompackagegpcpunpma-recommended" style="color: inherit; text-decoration: none;">
+				<h3><a href="https://www.npmjs.com/package/gpcpu">npm</a> (Recommended)</h3>
+			</a>
+			<pre><code class="language-sh">npm i gpcpu</code></pre>
+			<a href="#a-hrefhttpsunpkgcomunpkga" id="a-hrefhttpsunpkgcomunpkga" style="color: inherit; text-decoration: none;">
+				<h3><a href="https://unpkg.com">unpkg</a></h3>
+			</a>
+			<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/gpcpu"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+			<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+				<h2>Usage</h2>
+			</a>
+			<pre><code class="language-js"><span class="hljs-keyword">import</span> { Manager } <span class="hljs-keyword">from</span> <span class="hljs-string">'gpcpu'</span>;
+
+<span class="hljs-keyword">const</span> parallel = <span class="hljs-keyword">new</span> Manager(); <span class="hljs-comment">// uses the number of threads your hardware can run concurrently by default</span>
+<span class="hljs-keyword">const</span> fltArr = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float64Array</span>(<span class="hljs-number">100000000</span>);
+
+<span class="hljs-built_in">console</span>.time(<span class="hljs-string">'parallel'</span>);
+
+parallel.forEach(fltArr, (subArr, localIndex, globalIndex) =&gt; {
+  subArr[localIndex] = <span class="hljs-built_in">Math</span>.sqrt(globalIndex);
+}).then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-built_in">console</span>.timeEnd(<span class="hljs-string">'parallel'</span>); <span class="hljs-comment">// ~557ms on Intel Core i7-7700K @ 4.20GHz using 8 threads</span>
+  <span class="hljs-comment">// use fltArr here</span>
+});</code></pre>
+			<a href="#benchmark-comparison" id="benchmark-comparison" style="color: inherit; text-decoration: none;">
+				<h2>Benchmark Comparison</h2>
+			</a>
+			<pre><code class="language-js"><span class="hljs-keyword">const</span> fltArr = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float64Array</span>(<span class="hljs-number">100000000</span>);
+
+<span class="hljs-built_in">console</span>.time(<span class="hljs-string">'sequential'</span>);
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; fltArr.length; ++i) {
+  fltArr[i] = <span class="hljs-built_in">Math</span>.sqrt(i);
+}
+
+<span class="hljs-built_in">console</span>.timeEnd(<span class="hljs-string">'sequential'</span>); <span class="hljs-comment">// ~2564ms on Intel Core i7-7700K @ 4.20GHz</span>
+<span class="hljs-comment">// use fltArr here</span></code></pre>
+			<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+				<h2>Documentation</h2>
+			</a>
+			<p>Available on <a href="https://patrickroberts.github.io/gpcpu/">Github Pages</a>.</p>
+		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
