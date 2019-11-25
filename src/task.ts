@@ -4,18 +4,20 @@ import { MessageRequest, MessageResponseListener } from './message';
 import { NodeWorker, NodeWorkerConstructor, NodeWorkerOptions } from './node';
 import Worker from './worker';
 
-export interface WorkerConstructor {
-  new (path: string, options?: WorkerOptions & NodeWorkerOptions): Worker;
+export type TaskOptions = WorkerOptions & NodeWorkerOptions;
+
+interface TaskConstructor {
+  new (path: string, options?: TaskOptions): Worker;
   prototype: Worker;
 }
 
-function getWorker (): WorkerConstructor {
+function getWorker (): TaskConstructor {
   const NodeWorker: NodeWorkerConstructor = require('worker_threads').Worker;
 
   return class implements Worker {
     private nodeWorker: NodeWorker;
 
-    constructor (path: string, options?: WorkerOptions & NodeWorkerOptions) {
+    constructor (path: string, options?: TaskOptions) {
       this.nodeWorker = new NodeWorker(path, options);
     }
 
@@ -33,6 +35,8 @@ function getWorker (): WorkerConstructor {
   };
 }
 
-export default typeof Worker === 'function'
-? Worker as WorkerConstructor
+const Task: TaskConstructor = typeof Worker === 'function'
+? Worker
 : getWorker();
+
+export default Task;

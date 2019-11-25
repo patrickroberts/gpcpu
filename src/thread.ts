@@ -1,8 +1,7 @@
 'use strict';
 
 import { MessageRequest, MessageResponse } from './message';
-import { NodeWorkerOptions } from './node';
-import Task from './task';
+import Task, { TaskOptions } from './task';
 import Worker from './worker';
 
 interface Completions {
@@ -16,7 +15,7 @@ class Thread {
   // stored in insertion order
   private pending: Completions[] = [];
 
-  constructor (path: string, options?: WorkerOptions & NodeWorkerOptions) {
+  constructor (path: string, options?: TaskOptions) {
     this.task = new Task(path, options);
     this.task.addEventListener('message', event => {
       if ('error' in event.data) {
