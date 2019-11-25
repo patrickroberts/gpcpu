@@ -1,0 +1,22 @@
+{
+  "name": "gpcpu",
+  "version": "0.0.0",
+  "description": "Asynchronous Parallel Programming for TypedArray",
+  "main": "src/manager.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^12.12.12",
+    "typescript": "^3.7.2"
+  },
+  "scripts": {},
+  "keywords": [
+    "asynchronous",
+    "parallel",
+    "cpu",
+    "thread",
+    "worker",
+    "TypedArray"
+  ],
+  "author": "Patrick Roberts",
+  "license": "MIT"
+}
