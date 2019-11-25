@@ -1,11 +1,9 @@
 'use strict';
 
-import { MessagePort } from 'worker_threads';
-import Port, { TypedArray } from './port';
-
-export interface Kernel {
-  (subArray: TypedArray, localIndex: number, globalIndex: number, ...args: any[]): void;
-}
+import Kernel from './kernel';
+import { TypedArray } from './message';
+import { NodeMessagePort } from './node';
+import Port from './port';
 
 function registerListener () {
   function compileKernel (source: string): Kernel {
@@ -36,7 +34,7 @@ function registerListener () {
   }
 
   function getParentPort (): Port {
-    const parentPort: MessagePort = require('worker_threads').parentPort;
+    const parentPort: NodeMessagePort = require('worker_threads').parentPort;
 
     return {
       postMessage (data, transfer = []) {
@@ -56,8 +54,9 @@ function registerListener () {
     try {
       const { subArray, source, index, args } = event.data;
       const kernel = compileKernel(source);
+      const params = [subArray, kernel, index].concat(args) as [TypedArray, Kernel, number, ...any[]];
 
-      callKernel(...[subArray, kernel, index].concat(args) as [TypedArray, Kernel, number, ...any[]]);
+      callKernel(...params);
 
       port.postMessage({ subArray }, [subArray.buffer]);
     } catch (error) {

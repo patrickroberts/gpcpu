@@ -1,8 +1,9 @@
 'use strict';
 
-import child, { Kernel } from './child';
+import child from './child';
 import cpus from './cpus';
-import { TypedArray } from './port';
+import Kernel from './kernel';
+import { TypedArray } from './message';
 import Thread from './thread';
 
 class Manager {

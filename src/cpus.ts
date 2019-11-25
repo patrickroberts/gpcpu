@@ -1,7 +1,9 @@
 'use strict';
 
+import { CpuInfo } from 'os';
+
 function getCpus () {
-  const { cpus } = require('os');
+  const cpus: () => CpuInfo[] = require('os').cpus;
   const { length } = cpus();
 
   return length;
