@@ -1,6 +1,6 @@
 {
   "name": "gpcpu",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Asynchronous Parallel Programming for TypedArray",
   "main": "dst/gpcpu.js",
   "module": "dst/gpcpu.mjs",
