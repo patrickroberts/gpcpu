@@ -1,7 +1,7 @@
 'use strict';
 
 import { MessagePort } from 'worker_threads';
-import { TypedArray, WorkerPort } from './worker';
+import Port, { TypedArray } from './port';
 
 export interface Kernel {
   (subArray: TypedArray, localIndex: number, globalIndex: number, ...args: any[]): void;
@@ -23,7 +23,7 @@ function registerListener () {
     }
   }
 
-  function getGlobalWorkerScope (): WorkerPort {
+  function getGlobalWorkerScope (): Port {
     return {
       postMessage (data, transfer = []) {
         // postMessage() calls global, not method
@@ -35,7 +35,7 @@ function registerListener () {
     };
   }
 
-  function getParentPort (): WorkerPort {
+  function getParentPort (): Port {
     const parentPort: MessagePort = require('worker_threads').parentPort;
 
     return {

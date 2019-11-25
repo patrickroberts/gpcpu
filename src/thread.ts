@@ -1,22 +1,23 @@
 'use strict';
 
 import { WorkerOptions as NodeWorkerOptions } from 'worker_threads';
-import Worker, { WorkerRequest, WorkerResponse } from './worker';
+import { PortRequest, PortResponse } from './port';
+import Worker, { WorkerInstance } from './worker';
 
 interface Completions<T> {
   resolve: (value: T | PromiseLike<T>) => void;
   reject: (reason: Error) => void;
 }
 
-class Thread extends Worker {
+class Thread {
+  private worker: WorkerInstance;
   // task completion signaling
   // stored in insertion order
-  private pending: Completions<WorkerResponse>[] = [];
+  private pending: Completions<PortResponse>[] = [];
 
   constructor (path: string, options?: WorkerOptions & NodeWorkerOptions) {
-    super(path, options);
-
-    this.addEventListener('message', event => {
+    this.worker = new Worker(path, options);
+    this.worker.addEventListener('message', event => {
       if ('error' in event.data) {
         const { reject } = this.pending.shift()!;
         reject(event.data.error);
@@ -29,16 +30,16 @@ class Thread extends Worker {
 
   // returns a promise that settles when
   // message event receives response from worker
-  postMessage (message: WorkerRequest, transfer: ArrayBuffer[] = []) {
-    return new Promise<WorkerResponse>((resolve, reject) => {
-      super.postMessage(message, transfer);
+  postMessage (message: PortRequest, transfer: ArrayBuffer[] = []) {
+    return new Promise<PortResponse>((resolve, reject) => {
+      this.worker.postMessage(message, transfer);
       this.pending.push({ resolve, reject });
     });
   }
 
   // cancels pending promises with rejection after terminating worker
   terminate () {
-    super.terminate();
+    this.worker.terminate();
 
     for (const { reject } of this.pending.splice(0)) {
       reject(new Error('terminated'));

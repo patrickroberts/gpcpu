@@ -2,8 +2,8 @@
 
 import child, { Kernel } from './child';
 import cpus from './cpus';
+import { TypedArray } from './port';
 import Thread from './thread';
-import { TypedArray } from './worker';
 
 class Manager {
   private threads: Thread[] = [];

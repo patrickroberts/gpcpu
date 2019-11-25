@@ -1,71 +1,33 @@
 'use strict';
 
-import { Worker as NodeWorker, WorkerOptions as NodeWorkerOptions } from 'worker_threads';
+import { NodeWorker, NodeWorkerConstructor, NodeWorkerOptions, PortRequest, PortResponseListener } from './port';
 
-interface NodeWorkerConstructor {
-  new (path: string, options?: NodeWorkerOptions): NodeWorker;
-}
-
-export type TypedArray = Float32Array | Float64Array | Int8Array | Int16Array | Int32Array | Uint8Array | Uint8ClampedArray | Uint16Array | Uint32Array;
-
-export interface WorkerRequest {
-  subArray: TypedArray;
-  source: string;
-  index: number;
-  args: any[];
-}
-
-export interface WorkerResponse {
-  subArray: TypedArray;
-}
-
-export interface WorkerError {
-  error: Error;
-}
-
-export interface WorkerEvent<T> extends MessageEvent {
-  data: T;
-}
-
-export interface WorkerEventListener<T> {
-  (event: WorkerEvent<T>): void;
-}
-
-export type WorkerRequestListener = WorkerEventListener<WorkerRequest>;
-
-export type WorkerResponseListener = WorkerEventListener<WorkerResponse | WorkerError>;
-
-export interface WorkerPort {
-  postMessage (data: WorkerResponse | WorkerError, transfer?: ArrayBuffer[]): void;
-  on (event: 'message', listener: WorkerRequestListener): void;
-}
-
-export interface Worker {
-  postMessage (data: WorkerRequest, transfer?: ArrayBuffer[]): void;
-  addEventListener (event: 'message', listener: WorkerResponseListener): void;
+export interface WorkerInstance {
+  postMessage (data: PortRequest, transfer?: ArrayBuffer[]): void;
+  addEventListener (event: 'message', listener: PortResponseListener): void;
   terminate (): void;
 }
 
 export interface WorkerConstructor {
-  new (path: string, options?: WorkerOptions & NodeWorkerOptions): Worker;
-  prototype: Worker;
+  new (path: string, options?: WorkerOptions & NodeWorkerOptions): WorkerInstance;
+  prototype: WorkerInstance;
 }
 
 function getWorker (): WorkerConstructor {
   const NodeWorker: NodeWorkerConstructor = require('worker_threads').Worker;
 
-  return class implements Worker {
+  return class implements WorkerInstance {
     private nodeWorker: NodeWorker;
 
     constructor (path: string, options?: WorkerOptions & NodeWorkerOptions) {
       this.nodeWorker = new NodeWorker(path, options);
     }
 
-    postMessage (data: WorkerRequest, transfer: ArrayBuffer[] = []) {
+    postMessage (data: PortRequest, transfer: ArrayBuffer[] = []) {
       this.nodeWorker.postMessage({ data }, transfer);
     }
 
-    addEventListener (event: 'message', listener: WorkerResponseListener) {
+    addEventListener (event: 'message', listener: PortResponseListener) {
       this.nodeWorker.on(event, listener);
     }
 
