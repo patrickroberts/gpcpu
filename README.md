@@ -30,7 +30,8 @@ npm i gpcpu
 ```js
 import { Manager } from 'gpcpu';
 
-const parallel = new Manager(); // uses the number of threads your hardware can run concurrently by default
+// uses the number of threads your hardware can run concurrently by default
+const parallel = new Manager();
 const fltArr = new Float64Array(100000000);
 
 console.time('parallel');
@@ -38,7 +39,8 @@ console.time('parallel');
 parallel.forEach(fltArr, (subArr, localIndex, globalIndex) => {
   subArr[localIndex] = Math.sqrt(globalIndex);
 }).then(() => {
-  console.timeEnd('parallel'); // ~557ms on Intel Core i7-7700K @ 4.20GHz using 8 threads
+  // ~557ms on Intel Core i7-7700K @ 4.20GHz using 8 threads
+  console.timeEnd('parallel');
   // use fltArr here
 });
 ```
@@ -54,7 +56,8 @@ for (let i = 0; i < fltArr.length; ++i) {
   fltArr[i] = Math.sqrt(i);
 }
 
-console.timeEnd('sequential'); // ~2564ms on Intel Core i7-7700K @ 4.20GHz
+// ~2564ms on Intel Core i7-7700K @ 4.20GHz
+console.timeEnd('sequential');
 // use fltArr here
 ```
 

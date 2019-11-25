@@ -2484,7 +2484,8 @@ img {
 			</a>
 			<pre><code class="language-js"><span class="hljs-keyword">import</span> { Manager } <span class="hljs-keyword">from</span> <span class="hljs-string">'gpcpu'</span>;
 
-<span class="hljs-keyword">const</span> parallel = <span class="hljs-keyword">new</span> Manager(); <span class="hljs-comment">// uses the number of threads your hardware can run concurrently by default</span>
+<span class="hljs-comment">// uses the number of threads your hardware can run concurrently by default</span>
+<span class="hljs-keyword">const</span> parallel = <span class="hljs-keyword">new</span> Manager();
 <span class="hljs-keyword">const</span> fltArr = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Float64Array</span>(<span class="hljs-number">100000000</span>);
 
 <span class="hljs-built_in">console</span>.time(<span class="hljs-string">'parallel'</span>);
@@ -2492,7 +2493,8 @@ img {
 parallel.forEach(fltArr, (subArr, localIndex, globalIndex) =&gt; {
   subArr[localIndex] = <span class="hljs-built_in">Math</span>.sqrt(globalIndex);
 }).then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-  <span class="hljs-built_in">console</span>.timeEnd(<span class="hljs-string">'parallel'</span>); <span class="hljs-comment">// ~557ms on Intel Core i7-7700K @ 4.20GHz using 8 threads</span>
+  <span class="hljs-comment">// ~557ms on Intel Core i7-7700K @ 4.20GHz using 8 threads</span>
+  <span class="hljs-built_in">console</span>.timeEnd(<span class="hljs-string">'parallel'</span>);
   <span class="hljs-comment">// use fltArr here</span>
 });</code></pre>
 			<a href="#benchmark-comparison" id="benchmark-comparison" style="color: inherit; text-decoration: none;">
@@ -2506,7 +2508,8 @@ parallel.forEach(fltArr, (subArr, localIndex, globalIndex) =&gt; {
   fltArr[i] = <span class="hljs-built_in">Math</span>.sqrt(i);
 }
 
-<span class="hljs-built_in">console</span>.timeEnd(<span class="hljs-string">'sequential'</span>); <span class="hljs-comment">// ~2564ms on Intel Core i7-7700K @ 4.20GHz</span>
+<span class="hljs-comment">// ~2564ms on Intel Core i7-7700K @ 4.20GHz</span>
+<span class="hljs-built_in">console</span>.timeEnd(<span class="hljs-string">'sequential'</span>);
 <span class="hljs-comment">// use fltArr here</span></code></pre>
 			<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
 				<h2>Documentation</h2>
